@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIND&Ugrave;K - Reservation</title>
+  <link rel="icon" href="./assets/images/logo.png" type="image/png">
+  </title>
+  <link rel="stylesheet" href="./assets/css/reservation.css">
+  <link rel="stylesheet" href="./assets/css/header.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div id="header-data"></div>
+  <section class="book-table-section">
+    <div class="book-table-box">
+      <h2>ĐẶT BÀN NGAY HÔM NAY.</h2>
+      <form id="reservationForm" autocomplete="off">
+        <div class="form-row">
+          <input type="text" id="name" placeholder="Tên của bạn" required>
+          <input type="email" id="email" placeholder="Email" required>
+        </div>
+        <div class="form-row">
+          <input type="text" id="time" placeholder="Thời gian dùng bữa" required>
+          <input type="tel" id="phone" placeholder="Số điện thoại" required>
+        </div>
+        <div class="form-row">
+          <input type="date" id="date" required>
+          <input type="number" id="people" placeholder="Số lượng" min="1" required>
+        </div>
+        <button type="submit">ĐẶT BÀN NGAY</button>
+      </form>
+    </div>
+  </section>
+  <section class="contact-section">
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="info-item">
+          <a href="https://maps.app.goo.gl/cvMapm4SeWwjyhZA8" target="_blank" class="icon"><i
+              class="fa-solid fa-location-dot"></i></a>
+          <div class="text">
+            <h3>ĐỊA CHỈ</h3>
+            <p>Số 3 Cầu Giấy, Hanoi, Vietnam</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <a href="https://dichvucong.bocongan.gov.vn/?home=1" target="_blank" class="icon"><i
+              class="fa-solid fa-phone"></i></a>
+          <div class="text">
+            <h3>ĐIỆN THOẠI</h3>
+            <p>+84 335 533 023</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" class="icon"><i
+              class="fa-solid fa-envelope"></i></a>
+          <div class="text">
+            <h3>EMAIL</h3>
+            <p>lmd388222@gmail.com</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <a href="https://time.is/" target="_blank" class="icon"><i class="fa-solid fa-clock"></i></a>
+          <div class="text">
+            <h3>THỜI GIAN MỞ CỬA</h3>
+            <p>
+              Monday - Friday: 11.00AM - 11.00PM<br>
+              Saturday - Sunday: 10.00PM - 12.00AM
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-video-box">
+        <video class="contact-video" autoplay muted loop playsinline>
+          <source src="./assets/images/background/contact-bg.mp4" type="video/mp4">
+        </video>
+      </div>
+  </section>
+  <div id="footer-data"></div>
+  <script src="./assets/js/reservation.js"></script>
+  <script src="./assets/js/include.js"></script>
+</body>
+
+</html>

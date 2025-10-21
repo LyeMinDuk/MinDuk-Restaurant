@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Đặt bàn - MINDÙK</title>
+  <link rel="icon" href="../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../assets/css/admin/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <i class="fa-solid fa-chart-bar logo-icon"></i>
+        <span class="sidebar-title">MINDÙK</span>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <label class="sidebar-menu-label">MENU</label>
+      <nav class="nav-links">
+        <a href="adminlmd.html" class="active">
+          <span class="menu-icon-bg"><i class="fa-solid fa-table-cells-large menu-icon"></i></span>
+          <span>Đặt bàn</span>
+        </a>
+        <a href="stats.html">
+          <span class="menu-icon-bg"><i class="fa-solid fa-chart-line menu-icon"></i></span>
+          <span>Thống kê</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+  <main class="main" id="main">
+    <header class="header">
+      <button class="menu-btn" id="menu-btn"><i class="fa-solid fa-bars"></i></button>
+      <div class="header-actions">
+        <div class="user">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" class="user-avatar">
+          <span>LyeMinDuk</span>
+        </div>
+      </div>
+    </header>
+    <section class="dashboard-cards">
+      <div class="card">
+        <div class="card-icon"><i class="fa-regular fa-user"></i></div>
+        <div>
+          <div class="card-label">Tổng đặt bàn</div>
+          <div class="card-value" id="total-res">0</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-regular fa-clock"></i></div>
+        <div>
+          <div class="card-label">Chờ xác nhận</div>
+          <div class="card-value" id="pending-res">0</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-check"></i></div>
+        <div>
+          <div class="card-label">Đã xác nhận</div>
+          <div class="card-value" id="confirmed-res">0</div>
+        </div>
+      </div>
+    </section>
+    <section class="table-section">
+      <div class="table-header">
+        <h2>Danh sách đặt bàn</h2>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tên</th>
+              <th>Email</th>
+              <th>SĐT</th>
+              <th>Ngày</th>
+              <th>Giờ</th>
+              <th>Số người</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('menu-btn').onclick = function () {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    };
+    function loadReservations() {
+      const list = JSON.parse(localStorage.getItem("reservations") || "[]");
+      const body = document.getElementById("table-body");
+      body.innerHTML = "";
+
+      let total = list.length;
+      let confirmed = list.filter(r => r.confirmed === true).length;
+      let pending = total - confirmed;
+
+      document.getElementById("total-res").textContent = total;
+      document.getElementById("pending-res").textContent = pending;
+      document.getElementById("confirmed-res").textContent = confirmed;
+
+      for (const r of list) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${r.name}</td>
+          <td>${r.email}</td>
+          <td>${r.phone}</td>
+          <td>${r.date}</td>
+          <td>${r.time}</td>
+          <td>${r.people}</td>
+          <td>${r.confirmed ? "✅ Đã xác nhận" : "⏳ Chờ duyệt"}</td>
+          <td>
+            <button class="confirm" onclick="confirmRes(${JSON.stringify(r.id)})">Xác nhận</button>
+            <button class="delete" onclick="deleteRes(${JSON.stringify(r.id)})">Xóa</button>
+          </td>`;
+        body.appendChild(row);
+      }
+    }
+
+    function getDeleted() {
+      return JSON.parse(localStorage.getItem("deleted_reservations") || "[]");
+    }
+    function setDeleted(list) {
+      localStorage.setItem("deleted_reservations", JSON.stringify(list));
+    }
+    function confirmRes(id) {
+      const list = JSON.parse(localStorage.getItem("reservations") || "[]").map(r =>
+        String(r.id) === String(id) ? { ...r, confirmed: true } : r
+      );
+      localStorage.setItem("reservations", JSON.stringify(list));
+      loadReservations();
+    }
+    function deleteRes(id) {
+      const list = JSON.parse(localStorage.getItem("reservations") || "[]");
+      const deleted = getDeleted();
+      const idx = list.findIndex(r => String(r.id) === String(id));
+      if (idx !== -1) {
+        deleted.push({ ...list[idx], deletedAt: Date.now() });
+        setDeleted(deleted);
+        list.splice(idx, 1);
+        localStorage.setItem("reservations", JSON.stringify(list));
+        loadReservations();
+      }
+    }
+    window.addEventListener("storage", loadReservations);
+    window.addEventListener("reservationUpdated", loadReservations);
+
+    loadReservations();
+  </script>
+</body>
+
+</html>
